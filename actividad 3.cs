@@ -1,0 +1,56 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // 1. Declaración de la matriz (2 pisos, 3 laboratorios)
+        int[,] escuela = new int[2, 3];
+
+        // 2. Carga con bucles anidados
+        for (int p = 0; p < escuela.GetLength(0); p++) // Recorre filas (Pisos)
+        {
+            for (int l = 0; l < escuela.GetLength(1); l++) // Recorre columnas (Laboratorios)
+            {
+                escuela[p, l] = ConsoleIntTryParse($"Ingrese alumnos del Piso {p}, Laboratorio {l}: ");
+            }
+        }
+
+        Console.WriteLine("\n--- Búsqueda Específica ---");
+
+        // 3. Búsqueda y Validación
+        int buscarPiso = ConsoleIntTryParse("Ingrese el número de Piso a consultar: ");
+        int buscarLab = ConsoleIntTryParse("Ingrese el número de Laboratorio a consultar: ");
+
+        // Validamos que los índices existan dentro de la matriz
+        if (buscarPiso >= 0 && buscarPiso < escuela.GetLength(0) &&
+            buscarLab >= 0 && buscarLab < escuela.GetLength(1))
+        {
+            Console.WriteLine($"En el Piso {buscarPiso}, Lab {buscarLab} hay {escuela[buscarPiso, buscarLab]} alumnos.");
+        }
+        else
+        {
+            Console.WriteLine("Error: El piso o laboratorio ingresado no existe.");
+        }
+
+        // 4. Cálculo por Piso (Solo Piso 0)
+        int totalPiso0 = 0;
+        for (int l = 0; l < escuela.GetLength(1); l++)
+        {
+            totalPiso0 += escuela[0, l];
+        }
+        Console.WriteLine($"\nEl total de alumnos en el Piso 0 es: {totalPiso0}");
+    }
+
+    // Tu método "Clave de la felicidad"
+    static int ConsoleIntTryParse(string mensaje)
+    {
+        int resultado;
+        Console.Write(mensaje);
+        while (!int.TryParse(Console.ReadLine(), out resultado))
+        {
+            Console.Write("Entrada no válida. Por favor, ingrese un número entero: ");
+        }
+        return resultado;
+    }
+}
